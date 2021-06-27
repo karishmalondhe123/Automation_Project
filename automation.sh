@@ -41,3 +41,24 @@ if [[ -f /tmp/${name}-httpd-logs-${timestamp}.tar ]]; then
 fi
 
 
+# Task 3 code
+filepath="/var/www/html"
+# Check if inventory file exists
+if [[ ! -f ${filepath}/inventory.html ]]; then
+	#statements
+	echo -e 'Log Type\t-\tTime Created\t-\tType\t-\tSize' > ${filepath}/inventory.html
+fi
+
+# Insert the logs into the file
+if [[ -f ${filepath}/inventory.html ]]; then
+	#statements
+    size=$(du -h /tmp/${name}-httpd-logs-${timestamp}.tar | awk '{print $1}')
+	echo -e "httpd-logs\t-\t${timestamp}\t-\ttar\t-\t${size}" >> ${filepath}/inventory.html
+fi
+
+# Create a cron job that runs service every minute or everyday
+if [[ ! -f /etc/cron.d/automation ]]; then
+	#statements
+	echo "* * * * * root /root/Automation_Project/automation.sh" >> /etc/cron.d/automation
+fi
+
